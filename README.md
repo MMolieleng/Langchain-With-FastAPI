@@ -11,5 +11,5 @@ pip install -r requirements.txt
 2. Start FastAPI process
 
 ```shell
-python main.py
+fastapi dev main.py
 ```
