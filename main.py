@@ -4,6 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from llm import LLM
+
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./todo.db"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
@@ -21,9 +23,14 @@ prompt = ChatPromptTemplate.from_template(template)
 model = OllamaLLM(model="phi3:mini", verbose=True)
 chain = prompt | model
 
+llm = LLM()
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/joke/{topic}")
+async def joke(topic: str = 'dad'):
+    return {"joke":llm.generate_joke(topic)}
 
 @app.get("/test/{name}")
 async def test(name: str):
